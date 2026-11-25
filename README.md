@@ -1,16 +1,44 @@
-# React + Vite
+# 🍖 Bovinu'S Brain - Dashboard Operacional Inteligente
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+## 📌 Descrição do Problema
+O restaurante Bovinu'S (Unidade Augusta) enfrenta desafios na gestão do almoço por peso:
+- Dificuldade em saber o "mix" real do prato (lucro x custo).
+- Filas e gargalos na churrasqueira e balança.
+- Desperdício de comida e tempo de limpeza de mesas.
+- Falta de integração entre o salão, a cozinha e a gestão.
 
-Currently, two official plugins are available:
+## 💡 Solução Proposta
+Criamos o **Bovinu'S Brain**, um dashboard full-stack que conecta a operação em tempo real.
+- **Visão do Gerente:** KPIs de lucro, mapa de calor do salão e termômetro de desperdício.
+- **Visão da Cozinha:** Sistema KDS para reposição de buffet e alertas de gargalo.
+- **IA Generativa:** Assistente virtual para responder perguntas sobre a operação.
+- **Tecnologias:** React, Vite, Tailwind CSS, Recharts, Node.js (mock).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🖼️ Capturas de Tela (Máximo 5)
+1. **Dashboard Principal:** Visão geral com KPIs e gráficos.
+   ![Dashboard](docs/prints/dashboard.png)
+2. **Mapa de Calor:** Planta real do salão com status das mesas (A, B, C).
+   ![Mapa](docs/prints/mapa.png)
+3. **Termômetro de Desperdício:** Análise de rejeição de pratos.
+   ![Desperdício](docs/prints/desperdicio.png)
+4. **Tela da Cozinha (KDS):** Pedidos de reposição em tempo real.
+   ![Cozinha](docs/prints/cozinha.png)
+5. **Modo TV:** Painel para o salão com alertas visuais.
+   ![Modo TV](docs/prints/modotv.png)
 
-## React Compiler
+## 🎥 Vídeo de Demonstração (Até 2 minutos)
+Assista à solução em funcionamento: [Clique aqui para assistir](LINK_DO_SEU_VIDEO_AQUI)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 📊 Apresentação (Até 5 Slides)
+Acesse os slides do projeto: [Clique aqui para ver os slides](LINK_DO_SEU_SLIDES_AQUI)
 
-## Expanding the Oxlint configuration
+## 🚀 Como Rodar o Projeto
+```bash
+# Clone o repositório
+git clone https://github.com/JTDDA/bovinus-dashboard.git
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+# Instale as dependências
+npm install
+
+# Rode o projeto
+npm run dev
