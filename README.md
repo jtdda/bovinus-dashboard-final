@@ -35,7 +35,7 @@ Acesse os slides do projeto: [Clique aqui para ver os slides](LINK_DO_SEU_SLIDES
 ## 🚀 Como Rodar o Projeto
 ```bash
 # Clone o repositório
-git clone https://github.com/JTDDA/bovinus-dashboard.git
+git clone [https://github.com/JTDDA/bovinus-dashboard.git](https://github.com/JTDDA/bovinus-dashboard.git)
 
 # Instale as dependências
 npm install
