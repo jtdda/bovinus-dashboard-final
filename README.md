@@ -27,10 +27,10 @@ Criamos o **Bovinu'S Brain**, um dashboard full-stack que conecta a operação e
    ![Modo TV](<modotv.png>)
 
 ## 🎥 Vídeo de Demonstração (Até 2 minutos)
-Assista à solução em funcionamento: [Clique aqui para assistir](LINK_DO_SEU_VIDEO_AQUI)
+Assista à solução em funcionamento: [Clique aqui para assistir](video apresentação.mp4)
 
 ## 📊 Apresentação (Até 5 Slides)
-Acesse os slides do projeto: [Clique aqui para ver os slides](LINK_DO_SEU_SLIDES_AQUI)
+Acesse os slides do projeto: [Clique aqui para ver os slides](Bovinu'S Gestão Inteligente (1).pdf)
 
 ## 🚀 Como Rodar o Projeto
 ```bash
