@@ -5,6 +5,7 @@ import SeletorIcones from './SeletorIcones';
 import GestaoFuncionarios from './GestaoFuncionarios';
 import PratoInteligente from './PratoInteligente';
 import TelaCozinha from './TelaCozinha';
+import TelaReposicao from './TelaReposicao'; // <-- IMPORT ADICIONADO AQUI
 import AdicionarIngrediente from './AdicionarIngrediente';
 import AlertaMesaPronta from './AlertaMesaPronta';
 import ChatGerente from './ChatGerente';
@@ -15,7 +16,7 @@ import RankingEquipe from './RankingEquipe';
 import MapaCalor from './MapaCalor';
 import { useState, useEffect } from 'react';
 import { PieChart, Pie, Cell, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { AlertTriangle, DollarSign, Clock, Users, Tv, MonitorOff, TrendingUp, ChefHat, Loader2, Menu, Utensils, PlusCircle } from 'lucide-react';
+import { AlertTriangle, DollarSign, Clock, Users, Tv, MonitorOff, TrendingUp, ChefHat, Loader2, Menu, Utensils } from 'lucide-react';
 import { gerarDadosMix, gerarDadosTempo } from './mockData';
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
   const [telaAdicionar, setTelaAdicionar] = useState(false);
   const [carregando, setCarregando] = useState(false);
 
+  // Estado dos ingredientes (necessário para a Tela da Cozinha)
   const [ingredientes, setIngredientes] = useState([
     { id: 1, nome: 'Picanha', categoria: 'Churrasco', status: 'pendente' },
     { id: 2, nome: 'Arroz Branco', categoria: 'Acompanhamento', status: 'pendente' },
@@ -53,6 +55,7 @@ function App() {
     setTimeout(() => setMensagem(''), 5000);
   };
 
+  // Funções da Tela da Cozinha
   const adicionarIngrediente = (novoItem) => {
     const novoId = ingredientes.length > 0 ? Math.max(...ingredientes.map(i => i.id)) + 1 : 1;
     setIngredientes([...ingredientes, { ...novoItem, id: novoId }]);
@@ -65,8 +68,10 @@ function App() {
     ));
   };
 
+  // --- LÓGICA DE LOGIN ---
   if (!logado) return <TelaLogin onLogin={() => setLogado(true)} />;
-  
+
+  // --- LÓGICA DA TELA DA COZINHA (Passando as props corretas) ---
   if (telaCozinha) return <TelaCozinha 
     onVoltar={() => setTelaCozinha(false)} 
     ingredientes={ingredientes}
@@ -74,10 +79,11 @@ function App() {
     onAbrirAdicionar={() => setTelaAdicionar(true)}
   />;
 
-  if (telaReposicao) return <TelaReposicao onVoltar={() => setTelaReposicao(false)} />;
+  // --- LÓGICA DA TELA DE CONFIGURAÇÕES ---
   if (telaConfig) return <TelaConfiguracoes onVoltar={() => setTelaConfig(false)} />;
   if (telaAdicionar) return <AdicionarIngrediente onVoltar={() => setTelaAdicionar(false)} onAdicionar={adicionarIngrediente} />;
 
+  // --- LÓGICA DO MODO TV ---
   if (modoTv) {
     return (
       <div className="min-h-screen bg-gray-900 text-white p-8 flex flex-col font-sans">
@@ -89,21 +95,27 @@ function App() {
           <div className="bg-red-900/40 p-8 rounded-2xl border-l-8 border-red-500 flex items-center gap-6"><AlertTriangle className="text-red-500 w-16 h-16 animate-pulse" /><div><h3 className="font-black text-3xl text-red-400">CHURRASQUEIRA</h3><p className="text-2xl text-gray-300 mt-2">Tempo de espera: <strong className="text-white">9 minutos</strong></p></div></div>
           <div className="bg-blue-900/40 p-8 rounded-2xl border-l-8 border-blue-500 flex items-center gap-6"><Users className="text-blue-500 w-16 h-16" /><div><h3 className="font-black text-3xl text-blue-400">SALÃO PRINCIPAL</h3><p className="text-2xl text-gray-300 mt-2">Ocupação: <strong className="text-white">65%</strong> (3 mesas para limpar)</p></div></div>
         </div>
-        <div className="flex-1"><MapaCalor periodo={periodo} /></div>
+        <div className="flex-1"><MapaCalor /></div>
       </div>
     );
   }
 
+  // --- RENDERIZAÇÃO DO CONTEÚDO CONFORME A ABA ---
   const renderConteudo = () => {
+    // Verificação da Tela de Reposição (mantém o menu lateral)
+    if (telaReposicao) {
+      return <TelaReposicao onVoltar={() => setTelaReposicao(false)} />;
+    }
+
     switch (abaAtiva) {
       case 'dashboard':
         return (
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-              <div className="bg-gray-800 p-4 rounded-xl border-l-4 border-red-500 flex items-start gap-4"><AlertTriangle className="text-red-500 w-8 h-8" /><div><h3 className="font-bold text-lg">Alerta de Lucro</h3><p className="text-sm text-gray-400">Consumo de carne {periodo === 'hoje' ? '25' : periodo === 'ontem' ? '15' : '20'}% acima da média.</p></div></div>
-              <div className="bg-gray-800 p-4 rounded-xl border-l-4 border-yellow-500 flex items-start gap-4"><Clock className="text-yellow-500 w-8 h-8" /><div><h3 className="font-bold text-lg">Gargalo na Churrasqueira</h3><p className="text-sm text-gray-400">Tempo de espera atual: <strong>{periodo === 'hoje' ? '9' : periodo === 'ontem' ? '5' : '12'} minutos</strong>.</p><button onClick={chamarReforco} className="mt-3 bg-yellow-600 hover:bg-yellow-500 text-white text-xs font-bold py-1.5 px-4 rounded transition-colors shadow-md">Chamar Reforço</button></div></div>
-              <div className="bg-gray-800 p-4 rounded-xl border-l-4 border-blue-500 flex items-start gap-4"><Users className="text-blue-500 w-8 h-8" /><div><h3 className="font-bold text-lg">Mesas Ocupadas</h3><p className="text-sm text-gray-400">{periodo === 'hoje' ? '65' : periodo === 'ontem' ? '40' : '80'}% do salão principal.</p></div></div>
-              <div className="bg-gradient-to-br from-green-900/40 to-emerald-900/40 p-4 rounded-xl border-l-4 border-green-500 flex items-start gap-4 shadow-[0_0_15px_rgba(34,197,94,0.2)]"><TrendingUp className="text-green-400 w-8 h-8 animate-pulse" /><div><h3 className="font-bold text-lg text-green-400">Economia Gerada</h3><p className="text-2xl font-black text-white mt-1">R$ {periodo === 'hoje' ? '450' : periodo === 'ontem' ? '320' : '1.200'},00</p><p className="text-xs text-green-300 font-semibold mt-1">↓ {periodo === 'hoje' ? '15' : periodo === 'ontem' ? '10' : '18'}% de desperdício</p></div></div>
+              <div className="bg-gray-800 p-4 rounded-xl border-l-4 border-red-500 flex items-start gap-4"><AlertTriangle className="text-red-500 w-8 h-8" /><div><h3 className="font-bold text-lg">Alerta de Lucro</h3><p className="text-sm text-gray-400">Consumo de carne 25% acima da média. Margem caiu para 18%.</p></div></div>
+              <div className="bg-gray-800 p-4 rounded-xl border-l-4 border-yellow-500 flex items-start gap-4"><Clock className="text-yellow-500 w-8 h-8" /><div><h3 className="font-bold text-lg">Gargalo na Churrasqueira</h3><p className="text-sm text-gray-400">Tempo de espera atual: <strong>9 minutos</strong>.</p><button onClick={chamarReforco} className="mt-3 bg-yellow-600 hover:bg-yellow-500 text-white text-xs font-bold py-1.5 px-4 rounded transition-colors shadow-md">Chamar Reforço</button></div></div>
+              <div className="bg-gray-800 p-4 rounded-xl border-l-4 border-blue-500 flex items-start gap-4"><Users className="text-blue-500 w-8 h-8" /><div><h3 className="font-bold text-lg">Mesas Ocupadas</h3><p className="text-sm text-gray-400">65% do salão principal. 3 mesas aguardando limpeza.</p></div></div>
+              <div className="bg-gradient-to-br from-green-900/40 to-emerald-900/40 p-4 rounded-xl border-l-4 border-green-500 flex items-start gap-4 shadow-[0_0_15px_rgba(34,197,94,0.2)]"><TrendingUp className="text-green-400 w-8 h-8 animate-pulse" /><div><h3 className="font-bold text-lg text-green-400">Economia Gerada Hoje</h3><p className="text-2xl font-black text-white mt-1">R$ 450,00</p><p className="text-xs text-green-300 font-semibold mt-1">↓ 15% de desperdício reduzido</p></div></div>
             </div>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
               <div className="bg-gray-800 p-6 rounded-xl shadow-lg">
@@ -123,36 +135,33 @@ function App() {
                 </div>
               </div>
             </div>
-            <MapaCalor periodo={periodo} />
-            <RadarClima periodo={periodo} />
-            <ChatGerente periodo={periodo} />
-            <AlertaMesaPronta periodo={periodo} />
-            <PratoInteligente periodo={periodo} />
+            <MapaCalor />
+            <RadarClima />
+            <ChatGerente />
+            <AlertaMesaPronta />
+            <PratoInteligente />
             <SeletorIcones />
           </>
         );
       case 'mesas':
-        return <MapaCalor periodo={periodo} />;
+        return <MapaCalor />;
       case 'equipe':
         return (
           <>
-            <GestaoFuncionarios periodo={periodo} />
-            <RankingEquipe periodo={periodo} />
+            <GestaoFuncionarios />
+            <RankingEquipe />
           </>
         );
       case 'operacao':
         return (
           <div className="space-y-8">
-            <AlertaBuffet periodo={periodo} />
+            <AlertaBuffet />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
               <div className="bg-gray-800 p-6 rounded-xl border border-gray-700 flex flex-col items-center text-center">
                 <ChefHat className="w-12 h-12 text-orange-500 mb-4" />
                 <h3 className="text-lg font-bold mb-2">Tela da Cozinha (KDS)</h3>
                 <p className="text-sm text-gray-400 mb-4">Veja os pedidos de reposição e reforço em tempo real.</p>
                 <button onClick={() => setTelaCozinha(true)} className="bg-orange-600 hover:bg-orange-500 text-white font-bold py-2 px-6 rounded-lg transition-colors w-full">Abrir Tela</button>
-                <button onClick={() => setTelaAdicionar(true)} className="mt-3 bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-6 rounded-lg transition-colors w-full flex items-center justify-center gap-2">
-                  <PlusCircle className="w-5 h-5" /> Adicionar Ingredientes
-                </button>
               </div>
               <div className="bg-gray-800 p-6 rounded-xl border border-gray-700 flex flex-col items-center text-center">
                 <Utensils className="w-12 h-12 text-blue-500 mb-4" />
@@ -164,14 +173,15 @@ function App() {
           </div>
         );
       case 'desperdicio':
-        return <TermometroDesperdicio periodo={periodo} />;
+        return <TermometroDesperdicio />;
       case 'ia':
-        return <ChatGerente periodo={periodo} />;
+        return <ChatGerente />;
       default:
         return <div className="text-gray-400">Selecione uma opção no menu.</div>;
     }
   };
 
+  // --- LAYOUT COM SIDEBAR ---
   return (
     <div className="min-h-screen font-sans bg-gray-950 text-white flex">
       <Sidebar 
@@ -180,7 +190,7 @@ function App() {
         isOpen={sidebarAberta} 
         setIsOpen={setSidebarAberta} 
         onLogout={() => setLogado(false)} 
-        onConfig={() => setTelaConfig(true)}
+        onConfig={() => setTelaConfig(true)} 
       />
 
       <div className="flex-1 md:ml-64 transition-all duration-300">

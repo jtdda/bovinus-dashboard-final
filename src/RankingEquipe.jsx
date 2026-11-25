@@ -1,13 +1,12 @@
 import { useState, useEffect } from 'react';
 import { Trophy, Clock, Star } from 'lucide-react';
 
-export default function RankingEquipe({ periodo }) { // <-- RECEBE A PROP
+export default function RankingEquipe({ periodo = 'hoje' }) { // <-- Proteção adicionada aqui
   const [equipe, setEquipe] = useState([]);
 
   // Efeito que roda sempre que o 'periodo' mudar
   useEffect(() => {
     // Multiplicador para simular dados diferentes
-    // Hoje: tempo base, Ontem: mais rápido, Semana: mais lento
     const multiplicador = periodo === 'hoje' ? 1 : periodo === 'ontem' ? 0.8 : 1.2;
 
     const novosDados = [
@@ -24,11 +23,15 @@ export default function RankingEquipe({ periodo }) { // <-- RECEBE A PROP
     setEquipe(novosDados);
   }, [periodo]);
 
+  // Proteção para caso o periodo chegue indefinido (evita o erro do charAt)
+  const periodoSeguro = periodo || 'hoje';
+  const periodoTitulo = periodoSeguro.charAt(0).toUpperCase() + periodoSeguro.slice(1);
+
   return (
     <div className="bg-gray-800 p-6 rounded-xl shadow-lg mt-8">
       <div className="flex justify-between items-center mb-6 border-b border-gray-700 pb-4">
         <h2 className="text-xl font-bold flex items-center gap-2">
-          <Trophy className="text-yellow-400" /> Ranking de Agilidade ({periodo.charAt(0).toUpperCase() + periodo.slice(1)})
+          <Trophy className="text-yellow-400" /> Ranking de Agilidade ({periodoTitulo})
         </h2>
         <span className="text-sm text-gray-400">Baseado no tempo de limpeza e atendimento</span>
       </div>
