@@ -16,15 +16,15 @@ Criamos o **Bovinu'S Brain**, um dashboard full-stack que conecta a operação e
 
 ## 🖼️ Capturas de Tela (Máximo 5)
 1. **Dashboard Principal:** Visão geral com KPIs e gráficos.
-   ![Dashboard](docs/prints/dashboard.png)
+   ![Dashboard](<dashboard.png>)
 2. **Mapa de Calor:** Planta real do salão com status das mesas (A, B, C).
-   ![Mapa](docs/prints/mapa.png)
+   ![Mapa](<mapa.png>)
 3. **Termômetro de Desperdício:** Análise de rejeição de pratos.
-   ![Desperdício](docs/prints/desperdicio.png)
+   ![Desperdício](<desperdicio.png>)
 4. **Tela da Cozinha (KDS):** Pedidos de reposição em tempo real.
-   ![Cozinha](docs/prints/cozinha.png)
+   ![Cozinha](<cozinha.png>)
 5. **Modo TV:** Painel para o salão com alertas visuais.
-   ![Modo TV](docs/prints/modotv.png)
+   ![Modo TV](<modotv.png>)
 
 ## 🎥 Vídeo de Demonstração (Até 2 minutos)
 Assista à solução em funcionamento: [Clique aqui para assistir](LINK_DO_SEU_VIDEO_AQUI)
@@ -35,7 +35,7 @@ Acesse os slides do projeto: [Clique aqui para ver os slides](LINK_DO_SEU_SLIDES
 ## 🚀 Como Rodar o Projeto
 ```bash
 # Clone o repositório
-git clone [https://github.com/JTDDA/bovinus-dashboard.git](https://github.com/JTDDA/bovinus-dashboard.git)
+git clone https://github.com/JTDDA/bovinus-dashboard.git
 
 # Instale as dependências
 npm install
